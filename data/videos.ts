@@ -105,11 +105,6 @@ const videos = [
     lng: 13.491752
   },
   {
-    src: 'nsUoYqPf1zs',
-    lat: 55.182978,
-    lng: -1.5659829
-  },
-  {
     src: 'dTwZRrWm3yM',
     lat: 58.593263,
     lng: 49.649501
