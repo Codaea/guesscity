@@ -3,7 +3,7 @@
     <UModal v-model="showResults" prevent-close>
       Final Score: {{ score }}
     </UModal>
-    <Round :key="currentRound" @complete-round="completeRound" :video-src="videoSrc" :answer="answer" />
+    <Round :key="currentRound" @complete-round="completeRound" :video-id="videoId" :answer="answer" />
   </div>
 </template>
 
@@ -14,14 +14,14 @@ const currentRound = ref(0);
 const totalRounds = ref(2);
 const showResults = ref(false);
 
-const videoSrc = ref('');
+const videoId = ref('');
 const answer = ref();
 
 import videos from '~/data/videos';
 
 function initializeRound() {
   const video = videos[Math.floor(Math.random() * videos.length)]; // TODO: make this psudo random
-  videoSrc.value = `https://www.youtube.com/embed/${video.src}`;
+  videoId.value = video.src;
   answer.value = [video.lat, video.lng];
 }
 

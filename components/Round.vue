@@ -17,7 +17,7 @@
     <UButton @click="isGuessOpen = !isGuessOpen" class="fixed bottom-14 left-1/2 transform -translate-x-1/2  z-10"
         size="xl">Guess</UButton>
     <BackgroundVideoPlayer class="fixed top-0 left-0 -z-10 w-screen h-screen pointer-events-none select-none"
-        :options="videoOptions" />
+        :video-id="props.videoId"/>
 
 </template>
 
@@ -32,7 +32,7 @@ const submitted = ref(false);
 
 
 const props = defineProps({
-    videoSrc: {
+    videoId: {
         type: String,
         required: true
     },
@@ -43,18 +43,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['completeRound',])
-
-const videoOptions = {
-    autoplay: true,
-    muted: true,
-    controls: false,
-    loop: true,
-    sources: [{
-        src: props.videoSrc,
-        type: 'video/youtube'
-    }],
-    techOrder: ['youtube']
-}
 
 function submit() {
     // after submitting, show the correct answer (passed from parent)

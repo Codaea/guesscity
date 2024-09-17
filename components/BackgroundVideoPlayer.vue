@@ -1,50 +1,46 @@
 <template>
-    <div>
-        <video ref="videoPlayerRef" ></video>
+    <div class="wrapper">
+        <div class="frame-container">
+            <iframe frameborder="0"
+                :src="`https://www.youtube.com/embed/${props.videoId}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&autohide=1&modestbranding=1`">
+            </iframe>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import videojs from 'video.js';
-import 'videojs-youtube'
-
-const videoPlayerRef = ref(null);
-
-
-interface VideoPlayerOptions {
-    autoplay: boolean;
-    muted: boolean;
-    controls: boolean;
-    loop: boolean;
-    sources: {
-        src: string;
-        type: string;
-    }[];
-    techOrder: string[];
-}
 
 const props = defineProps({
-    options: {
-        type: Object as PropType<VideoPlayerOptions>,
+    videoId: {
+        type: String,
+        required: true
     }
 })
 
-
-onMounted(() => {
-    if (videoPlayerRef.value) {
-        const player = videojs(videoPlayerRef.value, props.options, () => {
-            player.log('onPlayerReady', this);
-        });
-    }
-});
-
-onUnmounted(() => {
-    if (videoPlayerRef.value) {
-        videojs(videoPlayerRef.value).dispose();
-    }
-});
 </script>
 
 <style scoped>
-/* @import 'video.js/dist/video-js.css'; this prevents autoplay???*/
+.frame-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    padding-top: 25px;
+    width: 300%;
+    /* enlarge beyond browser width */
+    left: -100%;
+    /* center */
+}
+
+.frame-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.wrapper {
+    overflow: hidden;
+    max-width: 100%;
+}
 </style>
