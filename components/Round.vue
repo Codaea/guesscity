@@ -16,16 +16,17 @@
     </UModal>
     <UButton @click="isGuessOpen = !isGuessOpen" class="fixed bottom-14 left-1/2 transform -translate-x-1/2  z-10"
         size="xl">Guess</UButton>
-    <BackgroundVideoPlayer
-        class="fixed top-0 left-0 -z-10 w-screen h-screen pointer-events-none select-none" :options="videoOptions" />
+    <BackgroundVideoPlayer class="fixed top-0 left-0 -z-10 w-screen h-screen pointer-events-none select-none"
+        :options="videoOptions" />
 
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { LatLngExpression } from 'leaflet'
 
 const guess = ref(null);
 const isGuessOpen = ref(false);
-const answer = ref(null); // gets changed to the correct answer on submit
+const answer = ref<LatLngExpression | null>(null); // gets changed to the correct answer on submit
 const score = ref(0)
 const submitted = ref(false);
 
@@ -34,10 +35,14 @@ const props = defineProps({
     videoSrc: {
         type: String,
         required: true
+    },
+    answer: {
+        type: Object as PropType<LatLngExpression>,
+        required: true
     }
 })
 
-const emit = defineEmits(['completeRound', ])
+const emit = defineEmits(['completeRound',])
 
 const videoOptions = {
     autoplay: true,
@@ -52,7 +57,8 @@ const videoOptions = {
 }
 
 function submit() {
-    answer.value = [47.21322, -1.559482]; // Nantes
+    // after submitting, show the correct answer (passed from parent)
+    answer.value = props.answer;
     // TODO: make score calculation w algo
     score.value = 100;
     // change button to move on to next round
