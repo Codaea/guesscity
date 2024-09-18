@@ -1,10 +1,11 @@
 <template>
   <UModal v-model="isGuessOpen">
-    <UCard>
+    <UCard :ui="{body: { padding: '', }}">
       <template #header>
-        <h1 class="text-3xl">Guess the city!</h1>
+        <h1 class="text-3xl">Guess</h1>
+        <h1 v-if="answer == undefined">Distance Out:</h1>
       </template>
-      <div class="w-[29rem] h-[20rem]">
+      <div class="h-[32rem] w-full">
         <GuessMap :answer="localAnswer!" @update:guess="guess!" />
       </div>
       <template #footer>
@@ -28,7 +29,6 @@
 
 <script setup lang="ts">
 import type { Coordinates } from '~/types/Coordinates'
-import VideoPlayer from './VideoPlayer.vue';
 
 const guess = ref<Coordinates | null>(null)
 const isGuessOpen = ref(false)

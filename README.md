@@ -16,7 +16,7 @@ a clone of [virtualvaction.com/guess]()
   - [x] zoom to show how far off
 - [x] formatting and linting with prettier and
 - [ ] add scoring util file
-- [ ] enlarge map modal and map fit edge to edge
+- [X] enlarge map modal and map fit edge to edge
 - [ ] rename play to play offline
 - [ ] add video player controls to rewind and speed up or slow down
 - [ ] transition between rounds
