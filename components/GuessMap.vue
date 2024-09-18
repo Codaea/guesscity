@@ -40,17 +40,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Map, PointExpression } from 'leaflet'
-import type { Coordinates } from '~/types/Coordinates'
+import type { LMap } from '#build/components';
+import type { PointExpression } from 'leaflet'
+import type { Coordinates } from '~/types/Coordinates';
 
 const zoom = ref(1)
 const center: Ref<PointExpression> = ref([0, 0])
-const map = ref(null) // : Ref<null | Map>
+const map = ref<InstanceType<typeof LMap> | null>(null)
 const guess = ref<Coordinates | null>(null)
 const attrib = `<a>&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a></a>`
 
 const emit = defineEmits<{
-  (event: 'update:guess', payload: Coordinates): void
+  (event: 'update:guess', payload: Coordinates): void;
 }>()
 
 const props = defineProps({
@@ -68,12 +69,12 @@ function onMapClick(e: L.LeafletMouseEvent) {
 
 const onMapReady = () => {
   if (!map.value) return
-  const mp: Map = map.value.leafletObject
+  const mp = map.value.leafletObject
 
   watch(
     () => props.answer,
     (newAnswer) => {
-      mp.fitBounds([newAnswer, guess.value], { padding: [50, 50] })
+      mp!.fitBounds([newAnswer, guess.value], { padding: [50, 50] })
     }
   )
 }

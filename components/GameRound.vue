@@ -5,7 +5,7 @@
         <h1 class="text-3xl">Guess the city!</h1>
       </template>
       <div class="w-[29rem] h-[20rem]">
-        <Map :answer="localAnswer!" @update:guess="guess!" />
+        <GuessMap :answer="localAnswer!" @update:guess="guess!" />
       </div>
       <template #footer>
         <UButton @click="isGuessOpen = false">Close</UButton>
@@ -20,7 +20,7 @@
     @click="isGuessOpen = !isGuessOpen"
     >Guess</UButton
   >
-  <BackgroundVideoPlayer
+  <VideoPlayer
     class="fixed top-0 left-0 -z-10 w-screen h-screen pointer-events-none select-none"
     :video-id="props.videoId"
   />
@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import type { Coordinates } from '~/types/Coordinates'
+import VideoPlayer from './VideoPlayer.vue';
 
 const guess = ref<Coordinates | null>(null)
 const isGuessOpen = ref(false)

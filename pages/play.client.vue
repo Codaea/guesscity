@@ -1,7 +1,7 @@
 <template>
   <div>
     <UModal v-model="showResults" prevent-close> Final Score: {{ score }} </UModal>
-    <Round
+    <GameRound
       :key="currentRound"
       :video-id="videoId"
       :answer="answer!"
@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import GameRound from '~/components/GameRound.vue';
 import videos from '~/data/videos'
 import type { Coordinates } from '~/types/Coordinates'
 
