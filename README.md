@@ -20,7 +20,7 @@ a clone of [virtualvaction.com/guess]()
 - [ ] rename play to play offline
 - [ ] add video player controls to rewind and speed up or slow down
 - [ ] transition between rounds
-- [ ] fix answer typing all the way down components to just be number[]
+- [X] fix answer typing
 
 ## Long Term
 

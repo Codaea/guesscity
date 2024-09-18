@@ -4,7 +4,7 @@
     <Round
       :key="currentRound"
       :video-id="videoId"
-      :answer="answer"
+      :answer="answer!"
       @complete-round="completeRound"
     />
   </div>
@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import videos from '~/data/videos'
+import type { Coordinates } from '~/types/Coordinates'
 
 const score = ref(0)
 const currentRound = ref(0)
@@ -19,12 +20,12 @@ const totalRounds = ref(2)
 const showResults = ref(false)
 
 const videoId = ref('')
-const answer = ref()
+const answer: Ref<Coordinates | null> = ref(null)
 
 function initializeRound() {
   const video = videos[Math.floor(Math.random() * videos.length)] // TODO: make this psudo random
   videoId.value = video.src
-  answer.value = [video.lat, video.lng]
+  answer.value = { lat: video.lat, lng: video.lng }
 }
 
 function completeRound(roundScore: number) {

@@ -5,7 +5,7 @@
         <h1 class="text-3xl">Guess the city!</h1>
       </template>
       <div class="w-[29rem] h-[20rem]">
-        <Map :answer="answer" @update:guess="guess" />
+        <Map :answer="localAnswer!" @update:guess="guess!" />
       </div>
       <template #footer>
         <UButton @click="isGuessOpen = false">Close</UButton>
@@ -27,11 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import type { LatLngExpression } from 'leaflet'
+import type { Coordinates } from '~/types/Coordinates'
 
-const guess = ref(null)
+const guess = ref<Coordinates | null>(null)
 const isGuessOpen = ref(false)
-const answer = ref<LatLngExpression | null>(null) // gets changed to the correct answer on submit
+const localAnswer = ref<Coordinates | null>(null) // gets changed to the correct answer on submit
 const score = ref(0)
 const submitted = ref(false)
 
@@ -41,7 +41,7 @@ const props = defineProps({
     required: true
   },
   answer: {
-    type: Object as PropType<LatLngExpression>,
+    type: Object as PropType<Coordinates>,
     required: true
   }
 })
@@ -50,7 +50,7 @@ const emit = defineEmits(['completeRound'])
 
 function submit() {
   // after submitting, show the correct answer (passed from parent)
-  answer.value = props.answer
+  localAnswer.value = props.answer
   // TODO: make score calculation w algo
   score.value = 100
   // change button to move on to next round

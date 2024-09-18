@@ -17,7 +17,6 @@
           :icon-url="'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png'"
           :shadow-url="'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png'"
         />
-        <!-- TODO: fork this library?-->
       </LMarker>
       <LMarker v-if="answer" :lat-lng="answer">
         <LTooltip>Answer</LTooltip>
@@ -41,27 +40,30 @@
 </template>
 
 <script setup lang="ts">
-import type { LatLngExpression, Map, PointExpression } from 'leaflet'
+import type { Map, PointExpression } from 'leaflet'
+import type { Coordinates } from '~/types/Coordinates'
+
 const zoom = ref(1)
 const center: Ref<PointExpression> = ref([0, 0])
 const map = ref(null) // : Ref<null | Map>
-
+const guess = ref<Coordinates | null>(null)
 const attrib = `<a>&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a></a>`
 
-const emit = defineEmits(['update:guess'])
+const emit = defineEmits<{
+  (event: 'update:guess', payload: Coordinates): void
+}>()
 
-const guess = ref<LatLngExpression | undefined>(undefined)
 const props = defineProps({
   answer: {
-    type: Object as PropType<LatLngExpression>,
+    type: Object as PropType<Coordinates>,
     default: undefined
   }
 })
 
 function onMapClick(e: L.LeafletMouseEvent) {
   if (props.answer) return // already answered, dont allow movement
-  guess.value = [e.latlng.lat, e.latlng.lng] // update guess position
-  emit('update:guess', [e.latlng.lat, e.latlng.lng])
+  guess.value = { lat: e.latlng.lat, lng: e.latlng.lng }
+  emit('update:guess', { lat: e.latlng.lat, lng: e.latlng.lng })
 }
 
 const onMapReady = () => {
