@@ -1,20 +1,27 @@
 <template>
-        <div class="w-full h-full">
-            <LMap @click="onMapClick" ref="map" :zoom="zoom" :center="[47.21322, -1.559482]"
-                :use-global-leaflet="false">
-                <LMarker v-if="guess" :lat-lng="guess" />
-                <LMarker v-if="answer" :lat-lng="answer" />
-                <LPolyline v-if="answer && guess" :lat-lngs="[guess, answer]" />
-                <LTileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" layer-type="base" :max-zoom="20" />
-                <LControlAttribution position="bottomright" :prefix="attrib" />
-            </LMap>
-        </div>
+    <div class="w-full h-full">
+        <LMap @click="onMapClick" ref="map" :zoom="zoom" :center="center" :use-global-leaflet="false">
+            <LMarker v-if="guess" :lat-lng="guess" >
+                <LTooltip>Your Guess</LTooltip>
+                <LIcon :icon-size="[25,41]" :icon-anchor="[12, 41]" :shadow-size="[41, 41]"  :icon-url="'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png'" :shadow-url="'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png'"/> <!-- TODO: fork this library?-->
+            </LMarker>
+            <LMarker v-if="answer" :lat-lng="answer" >
+                <LTooltip>Answer</LTooltip>
+                <LIcon :icon-size="[25,41]" :icon-anchor="[12, 41]" :shadow-size="[41, 41]" :icon-url="'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png'" :shadow-url="'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png'" />
+            </LMarker>
+            <LPolyline v-if="answer && guess" :lat-lngs="[guess, answer]" :dashArray="'5,10'"/>
+            <LTileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" layer-type="base"
+                :max-zoom="20" />
+            <LControlAttribution position="bottomright" :prefix="attrib" />
+        </LMap>
+    </div>
 </template>
 
 <script setup lang="ts">
-import type { LatLngExpression } from 'leaflet'
-const zoom = ref(6)
-const map = ref(null)
+import type { LatLngExpression, Map, PointExpression } from 'leaflet'
+const zoom = ref(1)
+const center: Ref<PointExpression> = ref([0, 0])
+const map: Ref<null | Map> = ref(null)
 
 const attrib = `<a>&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a></a>`
 
@@ -30,8 +37,13 @@ const props = defineProps({
 
 function onMapClick(e: L.LeafletMouseEvent) {
     if (props.answer) return // already answered, dont allow movement
-    guess.value = [e.latlng.lat, e.latlng.lng] // update 
+    guess.value = [e.latlng.lat, e.latlng.lng] // update guess position
     emit('update:guess', [e.latlng.lat, e.latlng.lng])
 }
+
+watch(() => props.answer, () => {
+    center.value = [0,0]
+    zoom.value = 1 // TODO: weird zoom issue
+})
 
 </script>
