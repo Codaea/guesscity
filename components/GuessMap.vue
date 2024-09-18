@@ -51,7 +51,7 @@ const guess = ref<Coordinates | null>(null)
 const attrib = `<a>&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a></a>`
 
 const emit = defineEmits<{
-  (event: 'update:guess', payload: Coordinates): void;
+  (e: 'update:guess', value: Coordinates): void
 }>()
 
 const props = defineProps({
@@ -63,8 +63,9 @@ const props = defineProps({
 
 function onMapClick(e: L.LeafletMouseEvent) {
   if (props.answer) return // already answered, dont allow movement
-  guess.value = { lat: e.latlng.lat, lng: e.latlng.lng }
-  emit('update:guess', { lat: e.latlng.lat, lng: e.latlng.lng })
+  const coords : Coordinates = { lat: e.latlng.lat, lng: e.latlng.lng }
+  guess.value = coords // update map marker
+  emit('update:guess', coords)
 }
 
 const onMapReady = () => {
