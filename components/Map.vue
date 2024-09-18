@@ -5,9 +5,8 @@
                 <LMarker v-if="guess" :lat-lng="guess" />
                 <LMarker v-if="answer" :lat-lng="answer" />
                 <LPolyline v-if="answer && guess" :lat-lngs="[guess, answer]" />
-                <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
-                    layer-type="base" name="OpenStreetMap" />
+                <LTileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" layer-type="base" :max-zoom="20" />
+                <LControlAttribution position="bottomright" :prefix="attrib" />
             </LMap>
         </div>
 </template>
@@ -16,6 +15,8 @@
 import type { LatLngExpression } from 'leaflet'
 const zoom = ref(6)
 const map = ref(null)
+
+const attrib = `<a>&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a></a>`
 
 const emit = defineEmits(['update:guess'])
 
