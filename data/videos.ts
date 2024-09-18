@@ -129,6 +129,6 @@ const videos = [
     lat: 63.4057404,
     lng: -19.0716192
   }
-];
+]
 
-export default videos;
+export default videos
