@@ -1,12 +1,11 @@
 <template>
   <div>
-    <UModal v-model="showResults" prevent-close> Final Score: {{ score }} </UModal>
-    <GameRound
-      :key="currentRound"
-      :video-id="videoId"
-      :answer="answer!"
-      @complete-round="completeRound"
-    />
+    <UModal v-model="showResults" prevent-close>
+        <p class="text-3xl text-center">Final Score</p>
+        <p class="text-2xl text-center">{{ Math.round(score) }}</p>
+        <UButton @click="reloadNuxtApp">Play Again</UButton>
+    </UModal>
+    <GameRound :key="currentRound" :video-id="videoId" :answer="answer!" @complete-round="completeRound" />
   </div>
 </template>
 
