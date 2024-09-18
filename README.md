@@ -1,6 +1,6 @@
 # City Guesser
 
-this is a self made self hostable city guesser example
+a clone of [virtualvaction.com/guess]()
 
 # TODO:
 
@@ -14,13 +14,26 @@ this is a self made self hostable city guesser example
   - [x] dotted line between right and wrong answer
   - [x] colored your guess and correct answer
   - [x] zoom to show how far off
-- [ ] formatting and linting with prettier and
-- [ ] add scoring util
-- [ ] rename page to play offline
+- [x] formatting and linting with prettier and
+- [ ] add scoring util file
+- [ ] enlarge map modal and map fit edge to edge
+- [ ] rename play to play offline
 - [ ] add video player controls to rewind and speed up or slow down
-- [ ] transition between screen
-- [ ] fix answer typing all the way down components
+- [ ] transition between rounds
+- [ ] fix answer typing all the way down components to just be number[]
+
+## Long Term
 
 - [ ] write backend for online (supabase)
+- [ ] add multiplayer
 - [ ] form to add videos
-- [ ]
+- [ ] bulk more location
+- [ ] sound effects
+- [ ] host mode - plays like kahoot (shows video, then after submit it shows everyones map guess)
+- [ ] i18n localization
+  - [ ] decide/pick languages
+  - [ ]
+
+# Develop
+
+See [Develop.md](Develop.md)
