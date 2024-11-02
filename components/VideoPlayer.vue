@@ -3,8 +3,8 @@
     <div class="frame-container">
       <iframe
         frameborder="0"
-        :src="`https://www.youtube.com/embed/${props.videoId}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&autohide=1&modestbranding=1`"
-      />
+        :src="`https://www.youtube.com/embed/${props.videoId}&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&autohide=1&modestbranding=1`"
+      /> <!-- '?' is included in url -->
     </div>
   </div>
 </template>
