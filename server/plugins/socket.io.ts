@@ -113,6 +113,7 @@ class RoomManager {
   private startGame(socket: Socket) {
     const room = this.findRoom(socket);
     if (!room) return; // TODO: handle error and tell them they are not in a room
+    if (room.host !== socket) return; // forces only the host to start the game
     const _game = new Game(room);
   }
 
