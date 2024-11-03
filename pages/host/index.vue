@@ -6,6 +6,9 @@
 
         <div>
             <h1>Lobby Memebers in a list here</h1>
+            <ul>
+                <li v-for="player in players" :key="player.socketId">{{ player.username }}</li>
+            </ul>
             </div>
     </div>
 </template>
@@ -16,13 +19,24 @@ const router = useRouter();
 
 const videoIdState = useState('videoId', () => '');
 const roomcode = useState('room', () => '');
+interface Player {
+    socketId: string;
+    username: string;
+}
 
-socket.emit('newRoom');
+const players = ref<Player[]>([]);
 
-socket.on('roomCode', (rmCode: string) => {
+socket.emit('room:new');
+
+socket.on('room:new:success', (rmCode: string) => {
         console.log(rmCode);
         console.log('roomCode')
         roomcode.value = rmCode;
+})
+
+socket.on('player:joined', (socketId, username) => {
+    console.log('player joined')
+    players.value.push({socketId, username});
 })
 
 socket.on('watch', (videoId) => {

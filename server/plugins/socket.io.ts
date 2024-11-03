@@ -8,7 +8,6 @@ import videos from "~/data/videos2";
 
 import type { clientToServerEvents, serverToClientEvents } from "~/types/socketio";
 import type { Coordinates } from "~/types/Coordinates";
-import { socket } from "~/components/socket";
 
 export default defineNitroPlugin((nitroApp: NitroApp) => {
   const engine = new Engine();
@@ -20,6 +19,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
   // TODO: fix this, but for now, DON't TOUCH
   nitroApp.router.use("/socket.io/", defineEventHandler({
     handler(event) {
+      // @ts-expect-error not sure why, its a nuxt socketio thing
       engine.handleRequest(event.node.req, event.node.res);
       event._handled = true;
     },
@@ -29,7 +29,14 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
 });
 
 interface Room {
+  host: Socket;
   sockets: Set<Socket>;
+  Players: Map<string, Player>; // socket-id, Player
+}
+
+interface Player {
+  username: string;
+  score: number;
 }
 
 /**
@@ -47,9 +54,9 @@ class RoomManager {
       //
       console.log(`${socket.id} connected`); // DEBUG
 
-      socket.on("newRoom", () => this.createRoom(socket));
-      socket.on("joinRoom", (roomCode: string) => this.joinRoom(socket, roomCode));
-      socket.on("leaveRoom", () => this.leaveRoom(socket));
+      socket.on("room:new", () => this.roomNew(socket));
+      socket.on("room:join", (roomCode: string, username: string) => this.roomJoin(socket, roomCode, username));
+      socket.on("room:leave", () => this.roomLeave(socket));
 
       socket.on("startGame", () => this.startGame(socket))
 
@@ -58,26 +65,42 @@ class RoomManager {
   }
 
   // Create a new room, add them to rooms set
-  private createRoom(socket: Socket) {
+  private roomNew(socket: Socket) {
     const roomCode = Math.random().toString(36).substring(7);
-    this.rooms.set(roomCode, { sockets: new Set([socket]) });
-    socket.emit("roomCode", roomCode);
+    this.rooms.set(roomCode, {
+      host: socket,
+      sockets: new Set([socket]),
+      Players: new Map()
+    });
+    socket.emit("room:new:success", roomCode);
     console.log(`User created room: ${roomCode}`); // DEBUG
   }
 
-  private joinRoom(socket: Socket, roomCode: string) {
+  private roomJoin(socket: Socket, roomCode: string, username: string) {
     const room = this.rooms.get(roomCode);
-    if (!room) return; // TODO: handle error and tell them the room doesn't exist
+    // TODO: "join:error" and "join:success" has no effect on client side yet
+    if (!room) {
+      socket.emit("room:join:error", "Room does not exist");
+      return;
+    }
+    console.log(`Socket ${socket.id}:${username} joined room: ${roomCode}`); // DEBUG
+    socket.emit("room:join:success", roomCode);
+
+    // add player to room 
     room.sockets.add(socket);
-    socket.emit("joinedRoom", roomCode);
-    console.log(`Socket ${socket.id} joined room: ${roomCode}`); // DEBUG
+    room.Players.set(socket.id, { username, score: 0 });
+
+    this.rooms.get(roomCode)?.host.emit("player:joined", socket.id, username);
   }
 
   // Leave a room
-  private leaveRoom(socket: Socket) {
+  private roomLeave(socket: Socket) {
     for (const [roomCode, room] of this.rooms.entries()) {
       if (room.sockets.delete(socket)) {
+        socket.emit("player:left", socket.id);
         console.log(`Socket ${socket.id} left room: ${roomCode}`);
+
+        // handle empty room
         if (room.sockets.size === 0) {
           this.rooms.delete(roomCode);
           console.log(`Room ${roomCode} deleted as it is now empty`);
@@ -94,7 +117,7 @@ class RoomManager {
   }
 
   private handleDisconnect(socket: Socket) {
-    this.leaveRoom(socket);
+    this.roomLeave(socket);
     const room = this.findRoom(socket);
     if (!room) return;
     // TODO: inform the game for the room that a player has disconnected 
