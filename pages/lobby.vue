@@ -6,20 +6,3 @@
     </div>
 
 </template>
-
-<script setup lang="ts">
-import { socket } from '~/components/socket';
-const router = useRouter();
-const videoIdState = useState('videoId', () => '');
-
-// if client joins late, they will be redirected to play
-socket.on('watch', (videoId) => {
-    console.log('late player, adding to round now')
-    // update state
-    videoIdState.value = videoId;
-    router.push('/gameblock')
-
-
-})
-
-</script>

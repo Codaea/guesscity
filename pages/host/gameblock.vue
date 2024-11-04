@@ -9,21 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { socket } from '~/components/socket';
 
 const videoId = useState('videoId');
 const room = useState('room');
-const scores = useState('scores');
-const router = useRouter();
-
-
-// TODO: add a timer?
-socket.on('scores', (score) => {
-    console.log(score);
-    scores.value = score;
-    router.push('/host/result');
-    // move to next phase
-}) // move to next phase when scores are recived
-
-
 </script>

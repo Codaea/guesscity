@@ -39,10 +39,4 @@ socket.on('player:joined', (socketId, username) => {
     players.value.push({socketId, username});
 })
 
-socket.on('watch', (videoId) => {
-    console.log('late player, adding to round now')
-    // update state
-    videoIdState.value = videoId;
-    router.push('/host/gameblock')
-})
 </script>
