@@ -11,9 +11,6 @@ jobs:
     runs-on: docker
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -28,6 +25,9 @@ jobs:
           registry: git.codaealab.com
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Build and tag Docker image
         run: |
