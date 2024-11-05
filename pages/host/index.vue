@@ -35,7 +35,6 @@
 import { socket } from '~/components/socket'
 
 const roomcode = useState('room', () => '')
-const video = useState('video');
 interface Player {
   socketId: string;
   username: string;
@@ -60,4 +59,5 @@ socket.on('player:left', (socketId) => {
   console.log('player left')
   players.value = players.value.filter((player) => player.socketId !== socketId)
 });
+
 </script>

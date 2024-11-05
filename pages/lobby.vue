@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
+    <!-- Where client players are before game starts-->
     <div>
-      <p class="text-6xl text-center">Your In!</p>
-      <p>Waiting for host to start game...</p>
+        <h1>Waiting for host to start game...</h1>
+        <p>ARE YOU EXCITED?!</p>
     </div>
-  </div>
+
 </template>

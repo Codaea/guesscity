@@ -1,32 +1,31 @@
 <template>
-  <div>
-    <div class="flex justify-center items-center h-screen">
-      <div>
-        <p class="text-3xl text-center m-5">Join Game</p>
-        <div class="w-64 h-128 bg-gray-900 p-5 rounded-md space-y-2">
-          <UInput v-model="roomcode" placeholder="Room Code" size="xl" />
-          <UInput v-model="username" placeholder="Username" size="xl" />
-          <UButton class="mt-4" label="Enter" block @click="roomJoin" />
-          <p v-if="error" class="text-red-600 text-center">Error: {{ error }}</p>
-        </div>
-      </div>
+    <div>
+      <p>Connected: {{ connected }}</p>
+        <h1>Enter Room Code</h1>
+        <input v-model="roomcode" type="text">
+        <h1>Enter Username</h1>
+        <input v-model="username" type="text">
+
+        <UButton size="xl" @click="roomJoin">Join Game</UButton>
+
+        
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { socket } from '~/components/socket'
+import {socket, connected} from '~/components/socket';
 
-const roomcode = ref('')
-const username = ref('')
-const error = ref('')
+const roomcode = ref('enter roomcode here');
+const username = ref('enter username here');
+
+const router = useRouter();
 
 function roomJoin() {
-  socket.emit('room:join', roomcode.value, username.value );
+  console.log(`Joining room: ${roomcode.value}`) // DEBUG
+  socket.emit('room:join', roomcode.value, username.value);
+  router.push('/lobby');
 }
 
-socket.on('room:join:error', (err: string) => {
-  console.log('error', err)
-  error.value = err;
-})
+socket.connect()
+
 </script>

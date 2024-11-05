@@ -1,5 +1,6 @@
 <template>
   <div>
+  <h1>Guess the location!</h1>
   <UModal v-model="isGuessOpen">
     <UCard :ui="{body: { padding: '', }}">
       <template #header>
