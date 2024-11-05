@@ -1,4 +1,4 @@
-on: 
+on:
   push:
     branches:
       - master
@@ -12,19 +12,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
-    - name: Login to GitHub Container Registry
+
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: git.codaealab.com
           username: ${{ github.actor }}
           password: ${{ secrets.password }}
 
-    - name: Set Docker tag
+      - name: Set Docker tag
         id: date
-        run: echo "DATE_STAMP=$(date +%s)" > "$GITHUB_ENV"
+        run: echo "DATE_STAMP=$(date +%s)" >> $GITHUB_ENV
 
-    - name: Build and push Docker images
+      - name: Build and push Docker images
         uses: iloveitaly/github-action-nixpacks@main
         with:
           push: true
