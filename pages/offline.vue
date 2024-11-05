@@ -1,16 +1,21 @@
 <template>
   <div>
     <UModal v-model="showResults" prevent-close>
-        <p class="text-3xl text-center">Final Score</p>
-        <p class="text-2xl text-center">{{ Math.round(score) }}</p>
-        <UButton @click="reloadNuxtApp">Play Again</UButton>
+      <p class="text-3xl text-center">Final Score</p>
+      <p class="text-2xl text-center">{{ Math.round(score) }}</p>
+      <UButton @click="reloadNuxtApp">Play Again</UButton>
     </UModal>
-    <GameRound :key="currentRound" :video-id="videoId" :answer="answer!" @complete-round="completeRound" />
+    <GameRound
+      :key="currentRound"
+      :video-id="videoId"
+      :answer="answer!"
+      @complete-round="completeRound"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import GameRound from '~/components/GameRound.vue';
+import GameRound from '~/components/GameRound.vue'
 import videos from '~/data/videos'
 import type { Coordinates } from '~/types/Coordinates'
 
