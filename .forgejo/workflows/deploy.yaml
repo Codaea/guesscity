@@ -1,13 +1,13 @@
 on: 
   push:
     branches:
-      - main
+      - master
 
 env:
   IMAGE_NAME: git.codaealab.com/Codaea/guesscity
 
 jobs:
-  build-deploy:
+  build:
     runs-on: docker
 
     steps:
