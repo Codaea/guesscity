@@ -4,35 +4,28 @@ a clone of [virtualvaction.com/guess]()
 
 # TODO:
 
-- [x] create list of locations and video embeds
-- [x] migrate to plyr to avoid lower issues ACTUALLY MIGRATED TO JUST IFRAME
-  - [x] fix player to not show video title and just play video (nothing else)
-- [x] better map background
+### Online Related
 
-- [x] Map updates
-  - [x] good inital zoom
-  - [x] dotted line between right and wrong answer
-  - [x] colored your guess and correct answer
-  - [x] zoom to show how far off
-- [x] formatting and linting with prettier and
-- [X] add scoring util file
-- [X] enlarge map modal and map fit edge to edge
-- [ ] rename play to play offline
-- [ ] add video player controls to rewind and speed up or slow down
-- [ ] transition between rounds
-- [X] fix answer typing
+LEFTOFF: i need to move logic for what stage of the game the player should be in to somewhere else, not each component leading to the next.
+LEFTOFF: 2 also need to remove nuxt ui and style components by hand (just keep it for modals)
+
+- [X] add naming members in room
+- [X] room members visible to host
+- [ ] host can remove members
 
 ## Long Term
 
-- [ ] write backend for online (supabase)
-- [ ] add multiplayer
+- [X] write backend for online (supabase)
+- [X] add multiplayer
 - [ ] form to add videos
-- [ ] bulk more location
+- [X] bulk more location
 - [ ] sound effects
-- [ ] host mode - plays like kahoot (shows video, then after submit it shows everyones map guess)
+- [X] host mode - plays like kahoot (shows video, then after submit it shows everyones map guess)
 - [ ] i18n localization
   - [ ] decide/pick languages
   - [ ]
+
+- [ ] remove nuxt ui dependency
 
 # Develop
 

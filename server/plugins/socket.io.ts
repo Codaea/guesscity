@@ -34,6 +34,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
 })
 
 interface Room {
+  roomcode: string
   host: Socket
   sockets: Set<Socket>
   Players: Map<string, Player> // socket-id, Player
@@ -75,6 +76,7 @@ class RoomManager {
   private roomNew(socket: Socket) {
     const roomCode = Math.random().toString(36).substring(7)
     this.rooms.set(roomCode, {
+      roomcode: roomCode,
       host: socket,
       sockets: new Set([socket]),
       Players: new Map(),
@@ -130,6 +132,10 @@ class RoomManager {
     if (!room) return
     // TODO: inform the game for the room that a player has disconnected
     console.log(`Socket ${socket.id} disconnected`) // DEBUG
+    if (room.sockets.size === 0) {
+      this.rooms.delete(room.roomcode)
+      console.log(`Room ${room} deleted as it is now empty`)
+    }
   }
 
   private findRoom(socket: Socket): Room | undefined {
