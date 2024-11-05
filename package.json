@@ -11,7 +11,8 @@
     "start": "node .output/server/index.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "docker:build-and-push": "docker build -t git.codaealab.com/codaea/guesscity:latest . && docker push git.codaealab.com/codaea/guesscity:latest"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.4",
