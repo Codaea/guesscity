@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import GameRound from '~/components/GameRound.vue'
-import videos from '~/data/videos'
+import videos from '~/data/videos2'
 import type { Coordinates } from '~/types/Coordinates'
 
 const score = ref(0)
@@ -29,8 +29,8 @@ const answer: Ref<Coordinates | null> = ref(null)
 
 function initializeRound() {
   const video = videos[Math.floor(Math.random() * videos.length)] // TODO: make this psudo random
-  videoId.value = video.src
-  answer.value = { lat: video.lat, lng: video.lng }
+  videoId.value = video.videoId
+  answer.value = { lat: video.coords[0], lng: video.coords[1] } as Coordinates
 }
 
 function completeRound(roundScore: number) {
