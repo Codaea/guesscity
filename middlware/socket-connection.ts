@@ -1,6 +1,6 @@
-import { socket } from "@/components/socket";
 
 // handle the case where user tries route when not connected to socket
+/*
 export default defineNuxtRouteMiddleware(async (to) => {
     if (to.path === '/join') return // skip to avoid infinite loop
 
@@ -17,3 +17,4 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
    
 })
+    */

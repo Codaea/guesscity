@@ -1,15 +1,16 @@
-// one instance of socket io for the enire app
+// one instance of socket io for the entire app
 import { io, type Socket } from "socket.io-client";
 import type { serverToClientEvents, clientToServerEvents } from "~/types/socketio";
 
-const socket: Socket<serverToClientEvents, clientToServerEvents> = io();
-const connected = computed(() => socket.connected);
-socket.on("connect", () => {
-  console.log("connected to server");
-});
+let socket: Socket<serverToClientEvents, clientToServerEvents> | null = null;
 
-socket.on("disconnect", () => {
-  console.log("disconnected from server");
-});
+const connected = computed(() => socket?.connected ?? false);
 
-export {socket, connected };
+function getSocket() {
+  if (!socket) {
+    socket = io();
+  }
+  return socket;
+}
+
+export { getSocket, connect, connected };

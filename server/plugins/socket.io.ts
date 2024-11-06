@@ -65,6 +65,8 @@ class RoomManager {
       )
       socket.on('room:leave', () => this.roomLeave(socket))
 
+      socket.on('room:ping', (roomCode:string) => this.pingRoom(socket, roomCode))
+
       socket.on('startGame', () => this.startGame(socket))
 
       socket.on('disconnect', () => this.handleDisconnect(socket))
@@ -115,6 +117,15 @@ class RoomManager {
         break
       }
     }
+  }
+
+  private pingRoom(socket: Socket, roomCode: string) {
+    const room = this.rooms.get(roomCode)
+    if (!room) {
+      socket.emit('room:ping:error', 'Room does not exist')
+      return
+    }
+    socket.emit('room:ping:success')
   }
 
   private startGame(socket: Socket) {

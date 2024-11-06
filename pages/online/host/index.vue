@@ -32,32 +32,35 @@
 </template>
 
 <script setup lang="ts">
-import { socket } from '~/components/socket'
+import { getSocket } from '~/components/socket'
+import { useGameState } from '~/compostables/useGameState'
 
-const roomcode = useState('room', () => '')
+const socket = getSocket();
+const gameState = useGameState();
+const roomcode = gameState.room;
+
 interface Player {
-  socketId: string;
-  username: string;
+  socketId: string
+  username: string
 }
 
-const players = ref<Player[]>([]);
+const players = ref<Player[]>([])
 
-socket.emit('room:new');
+socket.emit('room:new')
 
 socket.on('room:new:success', (rmCode: string) => {
   console.log(rmCode)
   console.log('roomCode')
   roomcode.value = rmCode
-});
+})
 
 socket.on('player:joined', (socketId, username) => {
   console.log('player joined')
   players.value.push({ socketId, username })
-});
+})
 
 socket.on('player:left', (socketId) => {
   console.log('player left')
   players.value = players.value.filter((player) => player.socketId !== socketId)
-});
-
+})
 </script>

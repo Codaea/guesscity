@@ -4,12 +4,12 @@
     <div class="flex flex-wrap justify-center items-center flex-grow">
       <!-- Bottom two boxes -->
       <div class="flex justify-center gap-8 w-full mb-8">
-        <NuxtLink to="/host" class="w-1/3">
+        <NuxtLink to="/online/host" class="w-1/3">
           <div class="p-12 bg-gray-700 rounded-lg shadow hover:shadow-md cursor-pointer transition-transform duration-200 hover:-translate-y-2">
             <p class="text-center font-medium">Host Online Game</p>
           </div>
         </NuxtLink>
-        <NuxtLink to="/join" class="w-1/3">
+        <NuxtLink to="/online/join" class="w-1/3">
           <div class="p-12 bg-gray-700 rounded-lg shadow hover:shadow-md cursor-pointer transition-transform duration-200 hover:-translate-y-2">
             <p class="text-center font-medium">Join Online Game</p>
           </div>

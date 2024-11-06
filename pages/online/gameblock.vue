@@ -30,9 +30,13 @@
 
 <script setup lang="ts">
 import type { Coordinates } from '~/types/Coordinates'
-import { socket } from '~/components/socket';
+import { useGameState } from '~/compostables/useGameState';
+import { getSocket } from '~/components/socket';
 
-const videoId: Ref<string> = useState('videoId');
+const gameState = useGameState();
+const socket = getSocket();
+
+const videoId: Ref<string> = gameState.videoId;
 const isGuessOpen = ref(false);
 
 const guess = ref<Coordinates|null>(null);

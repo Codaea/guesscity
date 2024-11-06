@@ -10,9 +10,13 @@
 </template>
 
 <script setup lang="ts">
-import { socket } from '~/components/socket';
-const scores = useState('scores');
+import { useGameState } from '~/compostables/useGameState';
+import { getSocket } from '~/components/socket';
 
+const gameState = useGameState();
+const socket = getSocket();
+
+const scores = gameState.scores;
 
 function next() {
     console.log(scores)

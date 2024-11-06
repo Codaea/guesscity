@@ -5,6 +5,8 @@ export interface serverToClientEvents {
     'player:left': (socketId: string) => void;
     'room:join:success': (roomCode: string) => void;
     'room:join:error': (error: string) => void;
+    'room:ping:success': () => void;
+    'room:ping:error': (error: string) => void;
 
     watch: (videoId: string) => void;
     scores: (scores: Record<string, number>) => void;
@@ -14,6 +16,7 @@ export interface clientToServerEvents {
     'room:new': () => void;
     'room:join': (roomId:string, username: string) => void;
     'room:leave': () => void;
+    'room:ping': (roomId: string) => void;
     startGame: (roomId: string) => void;
 
     guess: (guess: Coordinates) => void;
