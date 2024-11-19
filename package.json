@@ -15,9 +15,10 @@
     "docker:build-and-push": "docker build -t git.codaealab.com/codaea/guesscity:latest . && docker push git.codaealab.com/codaea/guesscity:latest"
   },
   "dependencies": {
-    "@nuxt/ui": "^2.18.4",
-    "@nuxtjs/leaflet": "^1.2.2",
-    "nuxt": "^3.13.0",
+    "@nuxt/ui": "^2.19.2",
+    "@nuxtjs/leaflet": "^1.2.4",
+    "@pinia/nuxt": "^0.7.0",
+    "nuxt": "^3.14.159",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "vue": "latest",
@@ -26,10 +27,11 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.5.7",
     "@nuxt/eslint-config": "^0.5.7",
-    "eslint": "^9.10.0",
+    "eslint": "^9.15.0",
     "prettier": "3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.6",
-    "typescript": "^5.6.2",
-    "video.js": "^8.17.4"
-  }
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "typescript": "^5.6.3",
+    "video.js": "^8.19.1"
+  },
+  "packageManager": "pnpm@9.13.2+sha512.88c9c3864450350e65a33587ab801acf946d7c814ed1134da4a924f6df5a2120fd36b46aab68f7cd1d413149112d53c7db3a4136624cfd00ff1846a0c6cef48a"
 }
