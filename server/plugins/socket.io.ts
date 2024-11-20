@@ -65,7 +65,7 @@ class RoomManager {
       )
       socket.on('room:leave', () => this.roomLeave(socket))
 
-      socket.on('room:ping', (roomCode:string) => this.pingRoom(socket, roomCode))
+      socket.on('room:ping', (roomCode: string) => this.pingRoom(socket, roomCode))
 
       socket.on('startGame', () => this.startGame(socket))
 
@@ -153,9 +153,16 @@ class RoomManager {
   }
 }
 
+interface score {
+  socketId: string;
+  score: number;
+  guess: Coordinates;
+}
+
 class Game {
   private room: Room // contains socket objects
-  private scores: Map<string, number> = new Map() // socket-id to score
+  private scores: Map<string, score> // socket-id, score
+  private answer: Coordinates
 
   constructor(room: Room) {
     this.room = room
@@ -193,9 +200,12 @@ class Game {
 
   async round() {
     const video = pickVideo()
+    console.log('Round started:', video.videoId) // DEBUG
     this.room.sockets.forEach((socket) => {
       socket.emit('watch', video.videoId)
     })
+    // set the answer
+    this.answer = { lat: video.coords[0], lng: video.coords[1] };
 
     // /gameblock
     await this.guessPhase()
@@ -232,8 +242,9 @@ class Game {
 
           // score user
 
-          const score = 100 // TODO: score user
-          this.scores.set(socket.id, (this.scores.get(socket.id) || 0) + score)
+          const score = 100 // TODO: score user w/logic
+          const currentScore = this.scores.get(socket.id)?.score || 0
+          this.scores.set(socket.id, { socketId: socket.id, score: currentScore + score, guess })
 
           // end round early logic
 
@@ -256,7 +267,7 @@ class Game {
   // Broadcasts the final scores to all users in the room
   broadcastScores() {
     this.room.sockets.forEach((socket) => socket.emit('scores', this.scores))
-    console.log('Scores broadcasted:', this.scores)
+    console.log('Scores broadcasted:', this.answer, this.scores)
   }
 
   /* // TODO: implement

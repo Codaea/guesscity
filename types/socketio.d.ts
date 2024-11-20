@@ -1,3 +1,5 @@
+import type { Coordinates } from "./Coordinates";
+
 export interface serverToClientEvents {
     'room:new:success': (roomCode: string) => void;
     gameStarted: () => void;
@@ -9,7 +11,7 @@ export interface serverToClientEvents {
     'room:ping:error': (error: string) => void;
 
     watch: (videoId: string) => void;
-    scores: (scores: Record<string, number>) => void;
+    scores: (answer: Coordinates, scores: Record<string, number>) => void;
 }
 
 export interface clientToServerEvents {
