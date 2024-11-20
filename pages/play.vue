@@ -24,3 +24,9 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { useGameStore } from '#build/imports';
+// initalize gameState (for socket listeners)
+useGameStore().init(); // TODO: find a better way to init, from the pinia store instead of here
+</script>

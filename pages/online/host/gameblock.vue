@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { useGameState } from '~/compostables/useGameState';
+import { useGameStore } from '#build/imports';
 
+const store = useGameStore();
 
-const gameState = useGameState();
-
-const videoId = gameState.videoId;
-const room =  gameState.room;
+const videoId = store.videoId;
+console.log(videoId);
+const room = store.room;
 </script>

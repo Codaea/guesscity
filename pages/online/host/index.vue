@@ -6,11 +6,11 @@
       </div>
       <div class="flex-1">
         <p class="text-2xl">Room Code:</p>
-        <p class="text-5xl text-center">{{ roomcode }}</p>
+        <p class="text-5xl text-center">{{ store.room}}</p>
       </div>
     </div>
     <div class="w-full flex justify-end pr-12">
-      <UButton size="xl" @click="socket.emit('startGame', roomcode)"
+      <UButton size="xl" @click="socket.emit('startGame', store.room)"
         >Start Game</UButton
       >
     </div>
@@ -32,12 +32,10 @@
 </template>
 
 <script setup lang="ts">
-import { getSocket } from '~/components/socket'
-import { useGameState } from '~/compostables/useGameState'
+import { useGameStore } from '#build/imports';
 
-const socket = getSocket();
-const gameState = useGameState();
-const roomcode = gameState.room;
+const store = useGameStore();
+const socket = store.socket;
 
 interface Player {
   socketId: string
@@ -51,7 +49,7 @@ socket.emit('room:new')
 socket.on('room:new:success', (rmCode: string) => {
   console.log(rmCode)
   console.log('roomCode')
-  roomcode.value = rmCode
+  store.room = rmCode
 })
 
 socket.on('player:joined', (socketId, username) => {

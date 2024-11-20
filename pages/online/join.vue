@@ -15,11 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import { getSocket } from '~/components/socket';
-import { useGameState } from '~/compostables/useGameState';
+import { useGameStore } from '#build/imports';
 
-const socket = getSocket();
-const _gameState = useGameState(); // Initalize the game state
+const socket = useGameStore().socket;
 
 const roomcode = ref('');
 const username = ref('');
@@ -41,7 +39,6 @@ function checkRoom() {
 }
 
 function roomJoin() {
-  
   console.log(`Joining room: ${roomcode.value}`) // DEBUG
   socket.emit('room:join', roomcode.value, username.value);
 }
