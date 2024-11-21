@@ -4,7 +4,8 @@
       <iframe
         frameborder="0"
         :src="`https://www.youtube.com/embed/${props.videoId}&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&autohide=1&modestbranding=1`"
-      /> <!-- '?' is included in url -->
+      />
+      <!-- '?' is included in url -->
     </div>
   </div>
 </template>
@@ -13,9 +14,9 @@
 const props = defineProps({
   videoId: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <style scoped>

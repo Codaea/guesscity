@@ -13,7 +13,7 @@ const sayings = [
   'Best guesser ever?',
   "You didn't cheat did you?",
   'Good Guess!',
-]
+];
 
-const randomSaying = sayings[Math.floor(Math.random() * sayings.length)]
+const randomSaying = sayings[Math.floor(Math.random() * sayings.length)];
 </script>

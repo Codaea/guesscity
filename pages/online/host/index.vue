@@ -6,7 +6,7 @@
       </div>
       <div class="flex-1">
         <p class="text-2xl">Room Code:</p>
-        <p class="text-5xl text-center">{{ store.room}}</p>
+        <p class="text-5xl text-center">{{ store.room }}</p>
       </div>
     </div>
     <div class="w-full flex justify-end pr-12">
@@ -38,27 +38,29 @@ const store = useGameStore();
 const socket = store.socket;
 
 interface Player {
-  socketId: string
-  username: string
+  socketId: string;
+  username: string;
 }
 
-const players = ref<Player[]>([])
+const players = ref<Player[]>([]);
 
-socket.emit('room:new')
+socket.emit('room:new');
 
 socket.on('room:new:success', (rmCode: string) => {
-  console.log(rmCode)
-  console.log('roomCode')
-  store.room = rmCode
-})
+  console.log(rmCode);
+  console.log('roomCode');
+  store.room = rmCode;
+});
 
 socket.on('player:joined', (socketId, username) => {
-  console.log('player joined')
-  players.value.push({ socketId, username })
-})
+  console.log('player joined');
+  players.value.push({ socketId, username });
+});
 
 socket.on('player:left', (socketId) => {
-  console.log('player left')
-  players.value = players.value.filter((player) => player.socketId !== socketId)
-})
+  console.log('player left');
+  players.value = players.value.filter(
+    (player) => player.socketId !== socketId
+  );
+});
 </script>

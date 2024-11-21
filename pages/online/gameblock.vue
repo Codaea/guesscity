@@ -21,7 +21,8 @@
       class="fixed bottom-14 left-1/2 transform -translate-x-1/2 z-10"
       size="xl"
       @click="isGuessOpen = !isGuessOpen"
-      >Guess</UButton>
+      >Guess</UButton
+    >
 
     <VideoPlayer
       class="fixed top-0 left-0 -z-10 w-screen h-screen pointer-events-none select-none"
@@ -31,26 +32,26 @@
 </template>
 
 <script setup lang="ts">
-import type { Coordinates } from '~/types/Coordinates'
+import type { Coordinates } from '~/types/Coordinates';
 import { useGameStore } from '#build/imports';
 
 const store = useGameStore();
 
 const isGuessOpen = ref(false); // for v-model
 
-const guess = ref<Coordinates | null>(null)
-const router = useRouter()
+const guess = ref<Coordinates | null>(null);
+const router = useRouter();
 
 function updateGuess(value: Coordinates): void {
-  guess.value = value
+  guess.value = value;
 }
 
 function submit() {
   if (guess.value) {
-    store.guess = guess.value
-    console.log(`Guessing: ${guess.value}`)
-    store.socket.emit('guess', guess.value)
-    router.push('/online/answer/sent')
+    store.guess = guess.value;
+    console.log(`Guessing: ${guess.value}`);
+    store.socket.emit('guess', guess.value);
+    router.push('/online/answer/sent');
   }
 }
 </script>

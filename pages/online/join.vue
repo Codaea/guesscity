@@ -1,10 +1,12 @@
 <template>
-<div>
+  <div>
     <div class="flex justify-center items-center h-screen">
       <div v-if="!roomExists" class="bg-gray-800 p-7 rounded-lg">
         <UInput v-model="roomcode" placeholder="Room Code" size="xl" />
         <UButton class="mt-4" label="Enter" block @click="checkRoom" />
-        <p v-if="error" class="mt-5 text-red-500 text-center ">Error: {{ error }}</p>
+        <p v-if="error" class="mt-5 text-red-500 text-center">
+          Error: {{ error }}
+        </p>
       </div>
       <div v-if="roomExists">
         <UInput v-model="username" placeholder="Username" size="xl" />
@@ -39,9 +41,7 @@ function checkRoom() {
 }
 
 function roomJoin() {
-  console.log(`Joining room: ${roomcode.value}`) // DEBUG
+  console.log(`Joining room: ${roomcode.value}`); // DEBUG
   socket.emit('room:join', roomcode.value, username.value);
 }
-
-
 </script>

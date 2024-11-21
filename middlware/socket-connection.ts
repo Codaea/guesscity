@@ -1,4 +1,3 @@
-
 // handle the case where user tries route when not connected to socket
 /*
 export default defineNuxtRouteMiddleware(async (to) => {

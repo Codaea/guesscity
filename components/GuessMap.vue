@@ -28,7 +28,11 @@
           :shadow-url="'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png'"
         />
       </LMarker>
-      <LPolyline v-if="answer && guess" :lat-lngs="[guess, answer]" :dash-array="'5,10'" />
+      <LPolyline
+        v-if="answer && guess"
+        :lat-lngs="[guess, answer]"
+        :dash-array="'5,10'"
+      />
       <LTileLayer
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         layer-type="base"
@@ -41,42 +45,42 @@
 
 <script setup lang="ts">
 import type { LMap } from '#build/components';
-import type { PointExpression } from 'leaflet'
+import type { PointExpression } from 'leaflet';
 import type { Coordinates } from '~/types/Coordinates';
 
-const zoom = ref(1)
-const center: Ref<PointExpression> = ref([0, 0])
-const map = ref<InstanceType<typeof LMap> | null>(null)
-const guess = ref<Coordinates | null>(null)
-const attrib = `<a>&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a></a>`
+const zoom = ref(1);
+const center: Ref<PointExpression> = ref([0, 0]);
+const map = ref<InstanceType<typeof LMap> | null>(null);
+const guess = ref<Coordinates | null>(null);
+const attrib = `<a>&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a></a>`;
 
 const emit = defineEmits<{
-  (e: 'update:guess', value: Coordinates): void
-}>()
+  (e: 'update:guess', value: Coordinates): void;
+}>();
 
 const props = defineProps({
   answer: {
     type: Object as PropType<Coordinates>,
-    default: undefined
-  }
-})
+    default: undefined,
+  },
+});
 
 function onMapClick(e: L.LeafletMouseEvent) {
-  if (props.answer) return // already answered, dont allow movement
-  const coords : Coordinates = { lat: e.latlng.lat, lng: e.latlng.lng }
-  guess.value = coords // update map marker
-  emit('update:guess', coords)
+  if (props.answer) return; // already answered, dont allow movement
+  const coords: Coordinates = { lat: e.latlng.lat, lng: e.latlng.lng };
+  guess.value = coords; // update map marker
+  emit('update:guess', coords);
 }
 
 const onMapReady = () => {
-  if (!map.value) return
-  const mp = map.value.leafletObject
+  if (!map.value) return;
+  const mp = map.value.leafletObject;
 
   watch(
     () => props.answer,
     (newAnswer) => {
-      mp!.fitBounds([newAnswer, guess.value], { padding: [50, 50] })
+      mp!.fitBounds([newAnswer, guess.value], { padding: [50, 50] });
     }
-  )
-}
+  );
+};
 </script>
