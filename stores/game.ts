@@ -1,11 +1,12 @@
 import { getSocket } from '~/components/socket';
 import type { Coordinates } from '~/types/Coordinates';
+import type { Score } from '~/types/Score';
 
 export const useGameStore = defineStore('game', {
   state: () => ({
     socket: getSocket(),
     videoId: '',
-    scores: {},
+    scores: [] as Score[],
     answer: null as Coordinates | null,
     guess: null as Coordinates | null,
     room: '',
@@ -31,6 +32,7 @@ export const useGameStore = defineStore('game', {
         this.scores = newScores;
         console.log('Guess:', this.guess);
         console.log('Answer:', newAnswer);
+        console.log('Scores:', newScores);
         if (this.host) {
           router.push('/online/host/result');
           return;

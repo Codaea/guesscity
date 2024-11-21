@@ -1,5 +1,4 @@
 <template>
-  <!-- LEFTOFF: getting result map to display results, and just reciving results from the server in genreal.-->
   <div class="w-screen h-screen">
     <h1 class="text-3xl text-center">__ Miles Off!</h1>
     <LMap
@@ -8,7 +7,7 @@
       :center="center"
       :use-global-leaflet="false"
     >
-      <LMarker :lat-lng="guess">
+      <LMarker :lat-lng="store.guess">
         <LTooltip>Your Guess</LTooltip>
         <LIcon
           :icon-size="[25, 41]"
@@ -19,7 +18,7 @@
         />
       </LMarker>
 
-      <LMarker :lat-lng="answer">
+      <LMarker :lat-lng="store.answer">
         <LTooltip>Answer</LTooltip>
         <LIcon
           :icon-size="[25, 41]"
@@ -30,7 +29,7 @@
         />
       </LMarker>
 
-      <LPolyline :lat-lngs="[guess, answer]" :dash-array="'5,10'" />
+      <LPolyline :lat-lngs="[store.guess, store.answer]" :dash-array="'5,10'" />
 
       <LTileLayer
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
@@ -47,7 +46,4 @@ const store = useGameStore();
 const zoom = ref(1);
 const center = ref([0, 0]);
 
-// These should be refs that read from gameState
-const guess = computed(() => store.guess);
-const answer = computed(() => store.answer);
 </script>

@@ -1,4 +1,6 @@
 import type { Coordinates } from './Coordinates';
+import type { Score } from './Score';
+
 
 export interface serverToClientEvents {
   'room:new:success': (roomCode: string) => void;
@@ -11,7 +13,7 @@ export interface serverToClientEvents {
   'room:ping:error': (error: string) => void;
 
   watch: (videoId: string) => void;
-  scores: (answer: Coordinates, scores: Record<string, number>) => void;
+  scores: (answer: Coordinates, scores: Score[]) => void; // LEFTOFF: SHIT SCORE IMPLEMENTATION, SHIT IS READING NOT READY CLIENT SIDE. (WHY??)
 }
 
 export interface clientToServerEvents {

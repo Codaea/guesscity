@@ -2,6 +2,7 @@ import type { NitroApp } from 'nitropack';
 import { Server as Engine } from 'engine.io';
 import { Server, type Socket } from 'socket.io';
 import { defineEventHandler } from 'h3';
+import type { Score } from '~/types/Score';
 
 import type { Video } from '~/data/videos2';
 import videos from '~/data/videos2';
@@ -155,20 +156,15 @@ class RoomManager {
   }
 }
 
-interface score {
-  socketId: string;
-  score: number;
-  guess: Coordinates;
-}
-
 class Game {
   private room: Room; // contains socket objects
-  private scores: Map<string, score>; // socket-id, score
+  private scores: Score[];
   private answer: Coordinates;
 
   constructor(room: Room) {
     this.room = room;
-    this.scores = new Map();
+    this.scores = [] as Score[];
+    this.answer = { lat: 0, lng: 0 };
 
     this.start();
   }
@@ -245,12 +241,15 @@ class Game {
           // score user
 
           const score = 100; // TODO: score user w/logic
-          const currentScore = this.scores.get(socket.id)?.score || 0;
-          this.scores.set(socket.id, {
-            socketId: socket.id,
-            score: currentScore + score,
-            guess,
-          });
+          const existingScore = this.scores.find(s => s.id === socket.id);
+          if (existingScore) {
+            // if not first round/their first round playing
+            existingScore.score += score;
+            existingScore.guess = guess;
+          } else {
+            // first rounders
+            this.scores.push({ id: socket.id, score, guess });
+          }
 
           // end round early logic
 
@@ -272,8 +271,8 @@ class Game {
 
   // Broadcasts the final scores to all users in the room
   broadcastScores() {
-    this.room.sockets.forEach((socket) => socket.emit('scores', this.scores));
-    console.log('Scores broadcasted:', this.answer, this.scores);
+    this.room.sockets.forEach((socket) => socket.emit('scores', this.answer as Coordinates, this.scores as Score[]));
+    console.log('Scores broadcasted:', this.answer, this.scores );
   }
 
   /* // TODO: implement
