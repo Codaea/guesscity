@@ -41,6 +41,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['forceconnection']
+})
+
 const store = useGameStore();
 
 const zoom = ref(1);

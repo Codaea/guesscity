@@ -9,6 +9,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['forceconnection']
+})
+
 const sayings = [
   'Best guesser ever?',
   "You didn't cheat did you?",

@@ -35,6 +35,10 @@
 import type { Coordinates } from '~/types/Coordinates';
 import { useGameStore } from '#build/imports';
 
+definePageMeta({
+  middleware: ['forceconnection']
+})
+
 const store = useGameStore();
 
 const isGuessOpen = ref(false); // for v-model

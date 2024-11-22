@@ -20,6 +20,10 @@
 <script setup lang="ts">
 import { useGameStore } from '#build/imports';
 
+definePageMeta({
+  middleware: ['forceconnection']
+})
+
 const store = useGameStore();
 
 const videoId = store.videoId;
